@@ -14,18 +14,18 @@ export function fetchPopularMovies() {
   );
 }
 
-export function fetchSearchMovies(query) {
+export function fetchSearchMovies(query, signal) {
   const searchParamsSearchMovies = new URLSearchParams({
     api_key: API_KEY,
     language: 'en-US',
     query,
   });
-  return fetch(`${FETCH_URL}search/movie?${searchParamsSearchMovies}`).then(
-    response => {
-      if (!response.ok) throw new Error(response.status);
-      return response.json();
-    }
-  );
+  return fetch(`${FETCH_URL}search/movie?${searchParamsSearchMovies}`, {
+    signal,
+  }).then(response => {
+    if (!response.ok) throw new Error(response.status);
+    return response.json();
+  });
 }
 
 export function fetchMoviesDetails(movieId) {

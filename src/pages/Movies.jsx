@@ -22,16 +22,24 @@ export default function Movies() {
     if (!query) {
       return;
     }
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     setIsLoading(true);
-    fetchSearchMovies(query)
+
+    fetchSearchMovies(query, signal)
       .then(({ results }) => setSearchMovies(results))
       .catch(error => console.log(error))
       .finally(() => setIsLoading(false));
+
+    return () => {
+      abortController.abort();
+    };
   }, [query]);
 
   function handleSubmit(e) {
     e.preventDefault();
     setSearchParams({ query: e.target.search.value.trim() });
+    setSearchMovies([]);
   }
 
   return (
