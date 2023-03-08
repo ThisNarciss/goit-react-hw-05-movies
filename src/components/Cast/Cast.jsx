@@ -1,6 +1,7 @@
 import { fetchMoviesCredits } from 'api/movies-api';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { CastItem, CastLabel, CastList, CastText } from './Cast.styled';
 
 const DEFAULT_IMG = 'https://dummyimage.com/100x150/949494/fff.jpg';
 
@@ -13,10 +14,10 @@ export default function Cast() {
   }, [state]);
 
   return (
-    <ul>
+    <CastList>
       {actors.map(({ id, character, name, profile_path }) => {
         return (
-          <li key={id}>
+          <CastItem key={id}>
             <img
               src={
                 profile_path
@@ -26,11 +27,11 @@ export default function Cast() {
               alt={name}
               width="100"
             />
-            <h2>{name}</h2>
-            <p>{character}</p>
-          </li>
+            <CastLabel>{name}</CastLabel>
+            <CastText>{character}</CastText>
+          </CastItem>
         );
       })}
-    </ul>
+    </CastList>
   );
 }

@@ -23,7 +23,15 @@ export default function Reviews() {
         })
       ) : (
         <li>
-          <p>Not find any reviews</p>
+          <p
+            style={{
+              border: '1px solid red',
+              color: 'red',
+              padding: '10px 25px',
+            }}
+          >
+            We don't have any reviews for this movie
+          </p>
         </li>
       )}
     </ul>

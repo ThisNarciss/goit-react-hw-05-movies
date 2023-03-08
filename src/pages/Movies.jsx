@@ -1,9 +1,19 @@
 import { fetchSearchMovies } from 'api/movies-api';
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { Grid } from 'react-loader-spinner';
+import { useSearchParams, useLocation } from 'react-router-dom';
+import {
+  ButtonSubmit,
+  Form,
+  Input,
+  Section,
+  StyledLink,
+  List,
+} from 'styles/StyledComponents.styled';
 
 export default function Movies() {
   const [searchMovies, setSearchMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');
   const location = useLocation();
@@ -12,33 +22,47 @@ export default function Movies() {
     if (!query) {
       return;
     }
-
-    fetchSearchMovies(query).then(({ results }) => setSearchMovies(results));
+    setIsLoading(true);
+    fetchSearchMovies(query)
+      .then(({ results }) => setSearchMovies(results))
+      .catch(error => console.log(error))
+      .finally(() => setIsLoading(false));
   }, [query]);
 
   function handleSubmit(e) {
     e.preventDefault();
-
     setSearchParams({ query: e.target.search.value });
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input name="search" type="text" />
-        <button type="submit"></button>
-      </form>
-      <ul>
+    <Section>
+      <Form onSubmit={handleSubmit}>
+        <Input name="search" type="text" />
+        <ButtonSubmit type="submit">Search</ButtonSubmit>
+      </Form>
+      {isLoading && (
+        <Grid
+          height="80"
+          width="80"
+          color="#4fa94d"
+          ariaLabel="grid-loading"
+          radius="12.5"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      )}
+      <List>
         {searchMovies.map(({ id, title }) => {
           return (
             <li key={id}>
-              <Link to={`${id}`} state={{ from: location }}>
+              <StyledLink to={`${id}`} state={{ from: location }}>
                 {title}
-              </Link>
+              </StyledLink>
             </li>
           );
         })}
-      </ul>
-    </>
+      </List>
+    </Section>
   );
 }

@@ -1,7 +1,18 @@
 import { fetchMoviesDetails } from 'api/movies-api';
 
 import { Suspense, useEffect, useState } from 'react';
-import { Outlet, useParams, Link, useLocation } from 'react-router-dom';
+import { Grid } from 'react-loader-spinner';
+import { Outlet, useParams, useLocation } from 'react-router-dom';
+import {
+  Section,
+  BackLink,
+  ContainerDetails,
+  ContainerInfo,
+  ContainerAdditionalInfo,
+  AdditionalList,
+  AdditionalLabel,
+  AdditionalLink,
+} from 'styles/StyledComponents.styled';
 
 const DEFAULT_IMG = 'https://dummyimage.com/300x450/666566/fff.jpg';
 
@@ -15,11 +26,11 @@ export default function MovieDetails() {
   }, [movieId]);
 
   return (
-    <div>
+    <Section>
       {details && (
-        <div>
+        <ContainerDetails>
           <div>
-            <Link to={location.state.from}>Back to products</Link>
+            <BackLink to={location.state.from}> &lArr; Go back</BackLink>
             <img
               src={
                 details.poster_path
@@ -31,45 +42,65 @@ export default function MovieDetails() {
             />
           </div>
 
-          <div>
-            <h2>{`${details.original_title} (${details.release_date.slice(
-              0,
-              4
-            )})`}</h2>
-            <p>User Score: {Math.round((details.vote_average * 100) / 10)}%</p>
-          </div>
-          <div>
-            <h2>Overview</h2>
-            <p>{details.overview}</p>
-          </div>
-          <div>
-            <h2>Genres</h2>
-            <p>{details.genres.map(genre => genre.name).join(' ')}</p>
-          </div>
-          <ul>
-            <li>
-              <Link
-                to="cast"
-                state={{ from: { ...location.state.from }, id: details.id }}
-              >
-                Cats
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="reviews"
-                state={{ from: { ...location.state.from }, id: details.id }}
-              >
-                Reviews
-              </Link>
-            </li>
-          </ul>
-        </div>
+          <ContainerInfo>
+            <div>
+              <h2>{`${details.original_title} (${details.release_date.slice(
+                0,
+                4
+              )})`}</h2>
+              <p>
+                User Score: {Math.round((details.vote_average * 100) / 10)}%
+              </p>
+            </div>
+            <div>
+              <h2>Overview</h2>
+              <p>{details.overview}</p>
+            </div>
+            <div>
+              <h2>Genres</h2>
+              <p>{details.genres.map(genre => genre.name).join(' ')}</p>
+            </div>
+          </ContainerInfo>
+          <ContainerAdditionalInfo>
+            <AdditionalLabel>Additional information</AdditionalLabel>
+            <AdditionalList>
+              <li>
+                <AdditionalLink
+                  to="cast"
+                  state={{ from: { ...location.state.from }, id: details.id }}
+                >
+                  Cats
+                </AdditionalLink>
+              </li>
+              <li>
+                <AdditionalLink
+                  to="reviews"
+                  state={{ from: { ...location.state.from }, id: details.id }}
+                >
+                  Reviews
+                </AdditionalLink>
+              </li>
+            </AdditionalList>
+          </ContainerAdditionalInfo>
+        </ContainerDetails>
       )}
 
-      <Suspense fallback={<div>Loading subpage...</div>}>
+      <Suspense
+        fallback={
+          <Grid
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="grid-loading"
+            radius="12.5"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        }
+      >
         <Outlet />
       </Suspense>
-    </div>
+    </Section>
   );
 }
