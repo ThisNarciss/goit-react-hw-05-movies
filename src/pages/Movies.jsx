@@ -31,7 +31,7 @@ export default function Movies() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setSearchParams({ query: e.target.search.value });
+    setSearchParams({ query: e.target.search.value.trim() });
   }
 
   return (

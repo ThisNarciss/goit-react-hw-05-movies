@@ -8,10 +8,13 @@ import { Section } from 'styles/StyledComponents.styled';
 export default function Home() {
   const [popMovies, setPopMovies] = useState([]);
   const location = useLocation();
+
   useEffect(() => {
-    fetchPopularMovies().then(({ results }) => {
-      setPopMovies(results);
-    });
+    fetchPopularMovies()
+      .then(({ results }) => {
+        setPopMovies(results);
+      })
+      .catch(error => console.log(error));
   }, []);
 
   return (

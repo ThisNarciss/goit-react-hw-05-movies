@@ -41,7 +41,6 @@ export default function MovieDetails() {
               width="300"
             />
           </div>
-
           <ContainerInfo>
             <div>
               <h2>{`${details.original_title} (${details.release_date.slice(
@@ -69,7 +68,7 @@ export default function MovieDetails() {
                   to="cast"
                   state={{ from: { ...location.state.from }, id: details.id }}
                 >
-                  Cats
+                  Cast
                 </AdditionalLink>
               </li>
               <li>
