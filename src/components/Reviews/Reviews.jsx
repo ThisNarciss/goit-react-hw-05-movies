@@ -16,7 +16,7 @@ export default function Reviews() {
         reviews.map(({ id, author, content }) => {
           return (
             <li key={id}>
-              <h2>{author}</h2>
+              <h2>Author: {author}</h2>
               <p>{content}</p>
             </li>
           );
