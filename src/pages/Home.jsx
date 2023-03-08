@@ -2,7 +2,7 @@ import { fetchPopularMovies } from 'api/movies-api';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-export function Home() {
+export default function Home() {
   const [popMovies, setPopMovies] = useState([]);
   const location = useLocation();
   useEffect(() => {

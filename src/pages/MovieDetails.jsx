@@ -1,9 +1,11 @@
 import { fetchMoviesDetails } from 'api/movies-api';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Outlet, useParams, Link, useLocation } from 'react-router-dom';
 
-export function MovieDetails() {
+const DEFAULT_IMG = 'https://dummyimage.com/300x450/666566/fff.jpg';
+
+export default function MovieDetails() {
   const { movieId } = useParams();
   const [details, setDetails] = useState(null);
   const location = useLocation();
@@ -19,7 +21,11 @@ export function MovieDetails() {
           <div>
             <Link to={location.state.from}>Back to products</Link>
             <img
-              src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`}
+              src={
+                details.poster_path
+                  ? `https://image.tmdb.org/t/p/w500/${details.poster_path}`
+                  : DEFAULT_IMG
+              }
               alt={details.original_title}
               width="300"
             />
@@ -61,7 +67,9 @@ export function MovieDetails() {
         </div>
       )}
 
-      <Outlet />
+      <Suspense fallback={<div>Loading subpage...</div>}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 }

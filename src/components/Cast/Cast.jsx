@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 const DEFAULT_IMG = 'https://dummyimage.com/100x150/949494/fff.jpg';
 
-export function Cast() {
+export default function Cast() {
   const { state } = useLocation();
   const [actors, setActors] = useState([]);
 

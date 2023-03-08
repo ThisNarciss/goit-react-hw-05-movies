@@ -2,7 +2,7 @@ import { fetchSearchMovies } from 'api/movies-api';
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 
-export function Movies() {
+export default function Movies() {
   const [searchMovies, setSearchMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');

@@ -2,7 +2,7 @@ import { fetchMoviesReviews } from 'api/movies-api';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-export function Reviews() {
+export default function Reviews() {
   const { state } = useLocation();
   const [reviews, setReviews] = useState([]);
 
@@ -12,14 +12,20 @@ export function Reviews() {
 
   return (
     <ul>
-      {reviews.map(({ id, author, content }) => {
-        return (
-          <li key={id}>
-            <h2>{author}</h2>
-            <p>{content}</p>
-          </li>
-        );
-      })}
+      {reviews.length ? (
+        reviews.map(({ id, author, content }) => {
+          return (
+            <li key={id}>
+              <h2>{author}</h2>
+              <p>{content}</p>
+            </li>
+          );
+        })
+      ) : (
+        <li>
+          <p>Not find any reviews</p>
+        </li>
+      )}
     </ul>
   );
 }
