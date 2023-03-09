@@ -12,12 +12,12 @@ export function AdditionalInfo({ id, from }) {
       <AdditionalLabel>Additional information</AdditionalLabel>
       <AdditionalList>
         <li>
-          <AdditionalLink to="cast" state={{ from, id: id }}>
+          <AdditionalLink to="cast" state={{ from, id }}>
             Cast
           </AdditionalLink>
         </li>
         <li>
-          <AdditionalLink to="reviews" state={{ from, id: id }}>
+          <AdditionalLink to="reviews" state={{ from, id }}>
             Reviews
           </AdditionalLink>
         </li>
