@@ -28,6 +28,5 @@ export function AdditionalInfo({ id, from }) {
 
 AdditionalInfo.propTypes = {
   id: PropTypes.number.isRequired,
-
   from: PropTypes.object.isRequired,
 };

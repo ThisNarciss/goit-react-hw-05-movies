@@ -12,8 +12,6 @@ import {
   Form,
   Input,
   Section,
-  // StyledLink,
-  // List,
 } from 'styles/StyledComponents.styled';
 
 export default function Movies() {
