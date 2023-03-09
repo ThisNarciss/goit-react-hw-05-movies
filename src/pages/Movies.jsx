@@ -1,19 +1,25 @@
 import { fetchSearchMovies } from 'api/movies-api';
+import { Loader } from 'components/Loader/Loader';
+import { MoviesList } from 'components/MoviesList/MoviesList';
+import { Toast } from 'components/Toast/Toast';
 import { useEffect, useState } from 'react';
-import { Grid } from 'react-loader-spinner';
 import { useSearchParams, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   ButtonSubmit,
   Form,
   Input,
   Section,
-  StyledLink,
-  List,
+  // StyledLink,
+  // List,
 } from 'styles/StyledComponents.styled';
 
 export default function Movies() {
   const [searchMovies, setSearchMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');
   const location = useLocation();
@@ -27,14 +33,22 @@ export default function Movies() {
     setIsLoading(true);
 
     fetchSearchMovies(query, signal)
-      .then(({ results }) => setSearchMovies(results))
-      .catch(error => console.log(error))
+      .then(({ results }) => {
+        setError(null);
+        setSearchMovies(results);
+      })
+      .catch(error => setError(error.massage))
       .finally(() => setIsLoading(false));
 
     return () => {
       abortController.abort();
     };
   }, [query]);
+
+  useEffect(() => {
+    if (!error) return;
+    toast(`🦄${error} `);
+  }, [error]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -48,29 +62,11 @@ export default function Movies() {
         <Input name="search" type="text" />
         <ButtonSubmit type="submit">Search</ButtonSubmit>
       </Form>
-      {isLoading && (
-        <Grid
-          height="80"
-          width="80"
-          color="#4fa94d"
-          ariaLabel="grid-loading"
-          radius="12.5"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
+      {isLoading && <Loader />}
+      {Boolean(searchMovies.length) && (
+        <MoviesList movies={searchMovies} location={location} />
       )}
-      <List>
-        {searchMovies.map(({ id, title }) => {
-          return (
-            <li key={id}>
-              <StyledLink to={`${id}`} state={{ from: location }}>
-                {title}
-              </StyledLink>
-            </li>
-          );
-        })}
-      </List>
+      <Toast />
     </Section>
   );
 }

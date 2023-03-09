@@ -1,8 +1,8 @@
 import { fetchPopularMovies } from 'api/movies-api';
+import { MoviesList } from 'components/MoviesList/MoviesList';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { List } from 'styles/StyledComponents.styled';
-import { StyledLink } from 'styles/StyledComponents.styled';
+
 import { Section } from 'styles/StyledComponents.styled';
 
 export default function Home() {
@@ -19,17 +19,9 @@ export default function Home() {
 
   return (
     <Section>
-      <List>
-        {popMovies.map(({ id, title }) => {
-          return (
-            <li key={id}>
-              <StyledLink to={`movies/${id}`} state={{ from: location }}>
-                {title}
-              </StyledLink>
-            </li>
-          );
-        })}
-      </List>
+      {Boolean(popMovies.length) && (
+        <MoviesList movies={popMovies} location={location} />
+      )}
     </Section>
   );
 }
