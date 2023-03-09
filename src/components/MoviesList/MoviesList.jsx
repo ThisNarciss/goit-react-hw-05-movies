@@ -22,7 +22,7 @@ MoviesList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
-    })
-  ),
+    }).isRequired
+  ).isRequired,
   location: PropTypes.object.isRequired,
 };

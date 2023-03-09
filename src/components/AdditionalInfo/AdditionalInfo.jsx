@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
   AdditionalLabel,
   AdditionalLink,
@@ -24,3 +25,9 @@ export function AdditionalInfo({ id, from }) {
     </ContainerAdditionalInfo>
   );
 }
+
+AdditionalInfo.propTypes = {
+  id: PropTypes.number.isRequired,
+
+  from: PropTypes.object.isRequired,
+};
